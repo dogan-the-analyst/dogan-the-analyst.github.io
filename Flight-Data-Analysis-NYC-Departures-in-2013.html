@@ -504,32 +504,32 @@ average scheduled hour of departure.</h3>
 <pre class="r"><code>left_on_time_or_early &lt;- flights %&gt;% 
   group_by(month, day) %&gt;% 
   summarize(
+    avg_scheduled_hour_of_dep = mean(sched_dep_time %/% 100),
     total_flights = n(),
     on_time_or_early = sum(dep_delay &lt;= 0 &amp; !is.na(dep_delay)),
     canceled_or_delayed = sum(is.na(dep_delay) | dep_delay &gt; 60),
-    exceed_35 = (canceled_or_delayed / total_flights) * 100,
-    avg_scheduled_hour_of_dep = mean(sched_dep_time %/% 100)
+    exceed_35 = (canceled_or_delayed / total_flights) * 100
   ) %&gt;% 
-  filter(exceed_35 &gt; 35)
+  filter(exceed_35 &gt; 35) 
 
 left_on_time_or_early</code></pre>
 <pre><code>## # A tibble: 12 × 7
 ## # Groups:   month [7]
-##    month   day total_flights on_time_or_early canceled_or_delayed exceed_35
-##    &lt;int&gt; &lt;int&gt;         &lt;int&gt;            &lt;int&gt;               &lt;int&gt;     &lt;dbl&gt;
-##  1     2     8           930              219                 506      54.4
-##  2     2     9           684              125                 419      61.3
-##  3     3     8           979              146                 574      58.6
-##  4     5    23           988              329                 435      44.0
-##  5     6    24           994              369                 348      35.0
-##  6     6    28           994              309                 369      37.1
-##  7     7     1           966              229                 407      42.1
-##  8     7    10          1004              360                 364      36.3
-##  9     7    23           997              257                 362      36.3
-## 10     9     2           929              386                 326      35.1
-## 11     9    12           992              386                 404      40.7
-## 12    12     5           969              326                 385      39.7
-## # ℹ 1 more variable: avg_scheduled_hour_of_dep &lt;dbl&gt;</code></pre>
+##    month   day avg_scheduled_hour_of_dep total_flights on_time_or_early
+##    &lt;int&gt; &lt;int&gt;                     &lt;dbl&gt;         &lt;int&gt;            &lt;int&gt;
+##  1     2     8                      13.1           930              219
+##  2     2     9                      12.7           684              125
+##  3     3     8                      13.3           979              146
+##  4     5    23                      13.2           988              329
+##  5     6    24                      13.2           994              369
+##  6     6    28                      13.2           994              309
+##  7     7     1                      13.0           966              229
+##  8     7    10                      13.2          1004              360
+##  9     7    23                      13.2           997              257
+## 10     9     2                      13.4           929              386
+## 11     9    12                      13.1           992              386
+## 12    12     5                      13.2           969              326
+## # ℹ 2 more variables: canceled_or_delayed &lt;int&gt;, exceed_35 &lt;dbl&gt;</code></pre>
 <ul>
 <li>Average scheduled hour of departure values show that the flights’
 hour is around 13 p.m.</li>
